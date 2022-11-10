@@ -1,24 +1,50 @@
 import logo from './logo.svg';
 import './App.css';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+} from "react-router-dom";
+
+import Restaurants from './containers/Restaurants';
+import Foods from './containers/Foods';
+import Orders from './containers/Orders';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+    <Router>
+      <Switch>
+        {/* exactというpropsはデフォルトではfalse
+        exactと記述することでpathの完全一致の場合にのみ
+        コンポーネントをレンダリングする
+        */}
+        <Route
+        exact
+        path="/restaurants"
         >
-          Learn React
-        </a>
-      </header>
-    </div>
+          < Orders />
+        </Route>
+
+        {/* matchとは、routepathがurlにどのようにマッチするのかについての情報を含んでいる。
+        具体的には、params, isExact, path, url */}
+        <Route
+        exact
+        path="/restaurants/:restauransId/foods"
+        render={({ match }) =>
+          <Foods
+            match={match}
+          />
+        }
+        />
+
+        <Route
+        exact
+        path="/orders"
+        >
+          < Restaurants />
+        </Route>
+      </Switch>
+    </Router>
   );
 }
 
